@@ -17,7 +17,6 @@
 
 import { stub } from 'sinon';
 import { expect } from 'chai';
-import { SettingsService } from './settings_service';
 import {
   getIid,
   getIidPromise,
@@ -25,24 +24,25 @@ import {
   getAuthTokenPromise
 } from './iid_service';
 import '../../test/setup';
-import { _FirebaseInstallationsInternal } from '@firebase/installations-types-exp';
+import { FirebaseInstallations } from '@firebase/installations-types';
 
 describe('Firebase Perofmrance > iid_service', () => {
   const IID = 'fid';
   const AUTH_TOKEN = 'authToken';
 
+  let fakeInstallations: FirebaseInstallations;
   before(() => {
     const getId = stub().resolves(IID);
     const getToken = stub().resolves(AUTH_TOKEN);
-    SettingsService.prototype.installationsService = ({
+    fakeInstallations = ({
       getId,
       getToken
-    } as unknown) as _FirebaseInstallationsInternal;
+    } as unknown) as FirebaseInstallations;
   });
 
   describe('getIidPromise', () => {
     it('provides iid', async () => {
-      const iid = await getIidPromise();
+      const iid = await getIidPromise(fakeInstallations);
 
       expect(iid).to.be.equal(IID);
       expect(getIid()).to.be.equal(IID);
@@ -51,7 +51,7 @@ describe('Firebase Perofmrance > iid_service', () => {
 
   describe('getAuthTokenPromise', () => {
     it('provides authentication token', async () => {
-      const token = await getAuthTokenPromise();
+      const token = await getAuthTokenPromise(fakeInstallations);
 
       expect(token).to.be.equal(AUTH_TOKEN);
       expect(getAuthenticationToken()).to.be.equal(AUTH_TOKEN);

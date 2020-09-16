@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-export interface FirebasePerformance {
-  /**
-   * Creates an uninitialized instance of trace and returns it.
-   *
-   * @param traceName The name of trace instance.
-   * @return The trace instance.
-   */
-  trace(traceName: string): PerformanceTrace;
+export interface PerformanceSettings {
+  /** Whether to collect custom events. */
+  dataCollectionEnabled?: boolean;
 
+  /** Whether to collect out of the box events. */
+  instrumentationEnabled?: boolean;
+}
+
+export interface FirebasePerformance {
   /**
    * Controls the logging of automatic traces and HTTP/S network monitoring.
    */
   instrumentationEnabled: boolean;
+
   /**
    * Controls the logging of custom traces.
    */
@@ -44,13 +45,15 @@ export interface PerformanceTrace {
    */
   stop(): void;
   /**
-   * Records a trace from given parameters. This provides a direct way to use trace without a need to
-   * start/stop. This is useful for use cases in which the trace cannot directly be used
-   * (e.g. if the duration was captured before the Performance SDK was loaded).
+   * Records a trace from given parameters. This provides a direct way to use
+   * trace without a need to start/stop. This is useful for use cases in which
+   * the trace cannot directly be used (e.g. if the duration was captured before
+   * the Performance SDK was loaded).
    *
    * @param startTime trace start time since epoch in millisec.
    * @param duration The duraction of the trace in millisec.
-   * @param options An object which can optionally hold maps of custom metrics and
+   * @param options An object which can optionally hold maps of custom metrics
+   *     and
    * custom attributes.
    */
   record(
@@ -62,27 +65,28 @@ export interface PerformanceTrace {
     }
   ): void;
   /**
-   * Adds to the value of a custom metric. If a custom metric with the provided name does not
-   * exist, it creates one with that name and the value equal to the given number. The value will be floored down to an
-   * integer.
+   * Adds to the value of a custom metric. If a custom metric with the provided
+   * name does not exist, it creates one with that name and the value equal to
+   * the given number. The value will be floored down to an integer.
    *
    * @param metricName The name of the custom metric.
-   * @param num The number to be added to the value of the custom metric. If not provided, it
+   * @param num The number to be added to the value of the custom metric. If not
+   *     provided, it
    * uses a default value of one.
    */
   incrementMetric(metricName: string, num?: number): void;
   /**
-   * Sets the value of the specified custom metric to the given number regardless of whether
-   * a metric with that name already exists on the trace instance or not. The value will be floored down to an
-   * integer.
+   * Sets the value of the specified custom metric to the given number
+   * regardless of whether a metric with that name already exists on the trace
+   * instance or not. The value will be floored down to an integer.
    *
    * @param metricName Name of the custom metric.
    * @param num Value to of the custom metric.
    */
   putMetric(metricName: string, num: number): void;
   /**
-   * Returns the value of the custom metric by that name. If a custom metric with that name does
-   * not exist will return zero.
+   * Returns the value of the custom metric by that name. If a custom metric
+   * with that name does not exist will return zero.
    *
    * @param metricName Name of the custom metric.
    */

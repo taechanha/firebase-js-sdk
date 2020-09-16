@@ -19,6 +19,7 @@ import { stub } from 'sinon';
 import { expect } from 'chai';
 import { Api, setupApi } from './api_service';
 import '../../test/setup';
+
 describe('Firebase Performance > api_service', () => {
   const PAGE_URL = 'http://www.test.com/abcd?a=2';
   const PERFORMANCE_ENTRY: PerformanceEntry = {
@@ -46,7 +47,6 @@ describe('Firebase Performance > api_service', () => {
     ]);
     // This is to make sure the test page is not changed by changing the href of location object.
     mockWindow.location = { ...self.location, href: PAGE_URL };
-
     setupApi(mockWindow);
     api = Api.getInstance();
   });

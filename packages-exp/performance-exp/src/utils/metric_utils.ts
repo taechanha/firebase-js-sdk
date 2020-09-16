@@ -16,9 +16,9 @@
  */
 
 import {
-  FIRST_PAINT_COUNTER_NAME,
   FIRST_CONTENTFUL_PAINT_COUNTER_NAME,
   FIRST_INPUT_DELAY_COUNTER_NAME,
+  FIRST_PAINT_COUNTER_NAME,
   OOB_TRACE_PAGE_LOAD_PREFIX
 } from '../constants';
 import { consoleLogger } from '../utils/console_logger';
@@ -32,8 +32,8 @@ const oobMetrics = [
 ];
 
 /**
- * Returns true if the metric is custom and does not start with reserved prefix, or if
- * the metric is one of out of the box page load trace metrics.
+ * Returns true if the metric is custom and does not start with reserved prefix,
+ * or if the metric is one of out of the box page load trace metrics.
  */
 export function isValidMetricName(name: string, traceName?: string): boolean {
   if (name.length === 0 || name.length > MAX_METRIC_NAME_LENGTH) {
@@ -48,9 +48,10 @@ export function isValidMetricName(name: string, traceName?: string): boolean {
 }
 
 /**
- * Converts the provided value to an integer value to be used in case of a metric.
- * @param providedValue Provided number value of the metric that needs to be converted to an integer.
- *
+ * Converts the provided value to an integer value to be used in case of a
+ * metric.
+ * @param providedValue Provided number value of the metric that needs to be
+ *     converted to an integer.
  * @returns Converted integer number to be set for the metric.
  */
 export function convertMetricValueToInteger(providedValue: number): number {
